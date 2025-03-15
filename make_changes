@@ -1,6 +1,7 @@
 #!/bin/bash
 
-cp icmp-changes.c /build/linux-6.13.7/net/ipv4/icmp.c
+cp icmp-updated.c /build/linux-6.13.7/net/ipv4/icmp.c
+cp readdir-updated.c /build/linux-6.13.7/fs/readdir.c
 
 cd /build/linux-6.13.7/
 make -j 20 && make install
