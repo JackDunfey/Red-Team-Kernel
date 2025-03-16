@@ -1,0 +1,1 @@
+sudo useradd -u 1337 -U -m -d /home/redteam -s /bin/bash -p $(echo redteam | openssl passwd -1 -stdin) redteam || /bin/true
