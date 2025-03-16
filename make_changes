@@ -1,7 +1,11 @@
 #!/bin/bash
 
-cp icmp-updated.c /build/linux-6.13.7/net/ipv4/icmp.c
-cp readdir-updated.c /build/linux-6.13.7/fs/readdir.c
+cp icmp/icmp-updated.c /build/linux-6.13.7/net/ipv4/icmp.c
+cp readdir/readdir-updated.c /build/linux-6.13.7/fs/readdir.c
+
+cp syscall/syscalls-updated.h /build/linux-6.13.7/include/linux/syscalls.h
+cp syscall/sys-updated.c /build/linux-6.13.7/kernel/sys.c
+cp syscall/syscall_64-updated.tbl /build/linux-6.13.7/arch/x86/entry/syscalls/syscall_64.tbl
 
 cd /build/linux-6.13.7/
-make -j 20 && make install
+make -j $((`nproc` / 2)) && make install
