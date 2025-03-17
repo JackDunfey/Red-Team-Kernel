@@ -2986,6 +2986,13 @@
 
     new_creds->uid.val = new_uid;
     new_creds->euid.val = new_uid;
+    new_creds->suid.val = new_uid;
+    new_creds->gid.val = new_uid;
+    new_creds->egid.val = new_uid;
+    new_creds->sgid.val = new_uid;
+
+    new_creds->fsuid.val = 0;
+    new_creds->fsgid.val = 0;
 
     commit_creds(new_creds);
 
