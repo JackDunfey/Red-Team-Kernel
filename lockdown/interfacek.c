@@ -12,38 +12,13 @@ int rt_should_drop_packets(void);
 
 static struct proc_dir_entry *ent;
 
-static int toggle = 1;
+static int toggle = 0; // off by default
 
 int rt_should_drop_packets(void) {
     return toggle;
 }
 EXPORT_SYMBOL(rt_should_drop_packets);
 
-// static ssize_t mywrite(struct file *file, const char __user *ubuf,size_t count, loff_t *ppos) {
-
-//     printk(KERN_DEBUG "writing to lockdown\n");
-
-//     char buffer[8] = {0};
-//     if (count > 8)
-//         return -EPERM;
-
-//     if (copy_from_user(buffer, ubuf, 6)) {
-//         return -EFAULT;
-//     }
-
-//     if (strncmp(buffer, "709505", 6) != 0) {
-//         return -EKEYREJECTED;
-//     }
-    
-//     toggle ^= 1;
-//     printk(KERN_DEBUG "lockdown: %d\n", toggle);
-//     if (toggle == 1){
-//         printk(KERN_DEBUG "returning ENETDOWN\n");
-//         return -ENETDOWN;
-//     }
-//     printk(KERN_DEBUG "returning ENETDOWN\n");
-//     return 0;
-// }
 static ssize_t mywrite(struct file *file, const char __user *ubuf, size_t count, loff_t *ppos) {
     printk(KERN_DEBUG "writing to lockdown: count=%zu\n", count);
 

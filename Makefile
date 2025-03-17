@@ -1,11 +1,11 @@
-basic: pam insecurity
+not_kernel: pam insecurity lockdown
 
-all: basic kernel
+all: not_kernel kernel
 
 kernel: icmp readdir syscall
 	sudo make -j `nproc` -C /build/linux-6.13.7/ && sudo make -C /build/linux-6.13.7/ install
 
-icmp readdir syscall insecurity: 
+icmp readdir syscall lockdown insecurity: 
 	$(MAKE) -C $@
 
 pam: 
