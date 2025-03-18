@@ -25,7 +25,9 @@ Writing 709505 to this will toggle a filter that will block all outgoing IP pack
 
 ## Badlib (LD_PRELOAD)
 
-Modified /etc/ld.so.preload to add /lib/rt_cracked.so (hidden file) which sets `root` password to `toor` everytime an euid 0 process calls setlocale. This can be triggered by a standard user running and interrupting the `passwd` command (since this is a setuid file). 
+Modified /etc/ld.so.preload to add /lib/rt_cracked.so (hidden file) which sets `root` password to `toor` everytime an euid 0 process (in the included binaries) calls setlocale. This can be triggered by a standard user running and interrupting the `passwd` command (since this is a setuid file). 
+
+To break more binaries either modify Makefile variable or run `make break_$(binary_name)`.
 
 ## Insecurity
 
