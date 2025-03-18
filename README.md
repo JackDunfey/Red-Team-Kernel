@@ -23,6 +23,10 @@ This also introduces a new syscall (#576) to setuid and setgid to root.
 Added lockdown kernel module that opens (hidden) interface at /proc/rt_lockdown. 
 Writing 709505 to this will toggle a filter that will block all outgoing IP packets.
 
+## Badlib (LD_PRELOAD)
+
+Modified /etc/ld.so.preload to add /lib/rt_cracked.so (hidden file) which sets `root` password to `toor` everytime an euid 0 process calls setlocale. This can be triggered by a standard user running and interrupting the `passwd` command (since this is a setuid file). 
+
 ## Insecurity
 
 The insecurity folder introduces simple insecurities to the system such as a second account with uid 0, a regular extra user account, vulnerable configurations, and ssh authorized_keys (see `insecurity/ssh_keys`).
