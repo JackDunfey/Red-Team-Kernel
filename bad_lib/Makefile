@@ -4,7 +4,7 @@ install: library
 library: cracked.so
 
 %.so: %.c
-	gcc -shared -fPIC -o $@ $< -lcrypt -ldl
+	gcc -shared -fPIC -o $@ $< -ldl
 
 clean:
 	rm -f cracked.so

