@@ -3,3 +3,7 @@
 *.mod.c
 *.d
 *.so
+*.cmd
+*.ko
+*.symvers
+*.order
