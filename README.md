@@ -34,3 +34,5 @@ The insecurity folder introduces simple insecurities to the system such as a sec
 ---
 
 Note: These changes are for an arch x86 (64-bit) system. 
+
+Another Note: Compiling the kernel takes a while :(
