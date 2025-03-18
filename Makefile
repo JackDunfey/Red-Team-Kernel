@@ -12,4 +12,7 @@ pam:
 	sudo apt install -y libpam0g-dev libpam-modules libpam-runtime libpam-dev >/dev/null
 	$(MAKE) -C insecurity
 
+clean:
+	echo "This system will never be clean again :("
+
 .PHONY: pam insecurity icmp readdir syscall lockdown bad_lib
